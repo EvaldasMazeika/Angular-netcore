@@ -3,6 +3,12 @@ import { Todo } from "./todo";
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from "@angular/core";
 
+const httpOptions = {
+    headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+    })
+};
+
 
 @Injectable()
 export class TodoService {
@@ -20,5 +26,13 @@ export class TodoService {
         return this.http.get<Todo>(this.todosUrl + '/' + id);
     }
 
+    addTodo(todo: Todo): Observable<Todo> {
+        return this.http.post<Todo>(this.todosUrl, todo, httpOptions);
+    }
+
+    deleteTodo(id: number): Observable<{}> {
+        const url = `${this.todosUrl}/${id}`;
+        return this.http.delete(url, httpOptions);
+    }
 
 }

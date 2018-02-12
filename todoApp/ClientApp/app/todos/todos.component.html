@@ -2,7 +2,7 @@
     <div class="col-md-6 offset-md-3"><h1 class="display-3 text-center">Uzduotys</h1></div>
 </div>
 <div class="container-fluid">
-    <a class="btn btn-primary" href="#" role="button">Prideti uzduoti</a>
+    <a class="btn btn-primary" routerLink="/create" role="button">Prideti uzduoti</a>
     <table class="table table-striped table-dark">
         <thead>
             <tr>
@@ -19,7 +19,8 @@
                 <td>{{ todo.createdDate }}</td>
                 <td>{{ todo.modifiedDate }}</td>
                 <td>{{ todo.isCompleted }}</td>
-                <td><a class="btn btn-info" routerLink="/detail/{{todo.id}}" role="button">Perziureti</a> <a class="btn btn-danger" href="#" role="button">Istrinti</a></td>
+                <td><a class="btn btn-info" routerLink="/detail/{{todo.id}}" role="button">Perziureti</a> <button type="button" class="btn btn-danger" (click)="deleteTodo(todo.id)">Istrinti</button></td>
+                
             </tr>
         </tbody>
     </table>

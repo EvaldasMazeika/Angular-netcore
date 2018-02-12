@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using todoApp.Models;
 using todoApp.Services;
 
 namespace todoApp.Controllers
@@ -27,7 +28,7 @@ namespace todoApp.Controllers
             return Ok(result);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetTodo")]
         public IActionResult GetTodoById(int id)
         {
             var result = _repo.GetTodoById(id);
@@ -40,6 +41,45 @@ namespace todoApp.Controllers
             return Ok(result);
 
         }
+
+        [HttpPost()]
+        public IActionResult CreateTodo([FromBody] Todo todo)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            _repo.CreateTodo(todo);
+
+            if (!_repo.Save())
+            {
+                throw new Exception("erroorrr");
+            }
+
+            return CreatedAtRoute("GetTodo", new { id = todo.Id }, todo);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeteleTodo(int id)
+        {
+            var result = _repo.GetTodoById(id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            _repo.DeteleTodo(result);
+
+            if (!_repo.Save())
+            {
+                throw new Exception("erroor deleting");
+            }
+
+            return NoContent();
+        }
+
 
     }
 }

@@ -11,6 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var http_1 = require("@angular/common/http");
 var core_1 = require("@angular/core");
+var httpOptions = {
+    headers: new http_1.HttpHeaders({
+        'Content-Type': 'application/json'
+    })
+};
 var TodoService = /** @class */ (function () {
     function TodoService(http) {
         this.http = http;
@@ -21,6 +26,13 @@ var TodoService = /** @class */ (function () {
     };
     TodoService.prototype.getTodo = function (id) {
         return this.http.get(this.todosUrl + '/' + id);
+    };
+    TodoService.prototype.addTodo = function (todo) {
+        return this.http.post(this.todosUrl, todo, httpOptions);
+    };
+    TodoService.prototype.deleteTodo = function (id) {
+        var url = this.todosUrl + "/" + id;
+        return this.http.delete(url, httpOptions);
     };
     TodoService = __decorate([
         core_1.Injectable(),

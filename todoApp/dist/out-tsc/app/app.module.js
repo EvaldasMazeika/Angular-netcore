@@ -15,9 +15,11 @@ var todos_component_1 = require("./todos/todos.component");
 var todo_service_1 = require("./todo.service");
 var http_1 = require("@angular/common/http");
 var details_component_1 = require("./details/details.component");
+var create_component_1 = require("./create/create.component");
 var routes = [
     { path: '', component: todos_component_1.TodosComponent },
-    { path: 'detail/:id', component: details_component_1.DetailsComponent }
+    { path: 'detail/:id', component: details_component_1.DetailsComponent },
+    { path: 'create', component: create_component_1.CreateComponent }
 ];
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -27,7 +29,8 @@ var AppModule = /** @class */ (function () {
             declarations: [
                 app_component_1.AppComponent,
                 todos_component_1.TodosComponent,
-                details_component_1.DetailsComponent
+                details_component_1.DetailsComponent,
+                create_component_1.CreateComponent
             ],
             imports: [
                 platform_browser_1.BrowserModule,

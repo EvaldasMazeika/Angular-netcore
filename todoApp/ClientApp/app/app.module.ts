@@ -8,18 +8,21 @@ import { TodosComponent } from './todos/todos.component';
 import { TodoService } from './todo.service';
 import { HttpClientModule } from '@angular/common/http';
 import { DetailsComponent } from './details/details.component';
+import { CreateComponent } from './create/create.component';
 
 
 let routes = [
     { path: '', component: TodosComponent },
-    { path: 'detail/:id', component: DetailsComponent }
+    { path: 'detail/:id', component: DetailsComponent },
+    { path: 'create', component: CreateComponent }
 ];
 
 @NgModule({
   declarations: [
     AppComponent,
     TodosComponent,
-    DetailsComponent
+    DetailsComponent,
+    CreateComponent
   ],
   imports: [
       BrowserModule,

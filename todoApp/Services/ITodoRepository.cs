@@ -10,5 +10,9 @@ namespace todoApp.Services
     {
         IEnumerable<Todo> GetListOfTodos();
         Todo GetTodoById(int id);
+        void CreateTodo(Todo todo);
+
+        bool Save();
+        void DeteleTodo(Todo todo);
     }
 }

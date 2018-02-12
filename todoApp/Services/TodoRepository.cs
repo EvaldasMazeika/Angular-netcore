@@ -16,6 +16,18 @@ namespace todoApp.Services
             _context = context;
         }
 
+        public void CreateTodo(Todo todo)
+        {
+            todo.CreatedDate = DateTime.Now;
+
+            _context.Todos.Add(todo);
+        }
+
+        public void DeteleTodo(Todo todo)
+        {
+            _context.Remove(todo);
+        }
+
         public IEnumerable<Todo> GetListOfTodos()
         {
             return _context.Todos.ToList();
@@ -24,6 +36,11 @@ namespace todoApp.Services
         public Todo GetTodoById(int id)
         {
             return _context.Todos.FirstOrDefault(x => x.Id == id);
+        }
+
+        public bool Save()
+        {
+            return (_context.SaveChanges() >= 0);
         }
     }
 }

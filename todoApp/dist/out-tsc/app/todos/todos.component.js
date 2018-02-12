@@ -23,6 +23,14 @@ var TodosComponent = /** @class */ (function () {
         this.todoService.getTodos()
             .subscribe(function (todos) { return _this.todos = todos; });
     };
+    TodosComponent.prototype.deleteTodo = function (id) {
+        this.todoService.deleteTodo(id).subscribe();
+        var index = this.todos.find(function (x) { return x.id == id; });
+        var z = this.todos.indexOf(index);
+        if (z > -1) {
+            this.todos.splice(z, 1);
+        }
+    };
     TodosComponent = __decorate([
         core_1.Component({
             selector: 'app-todos',

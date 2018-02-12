@@ -21,4 +21,14 @@ export class TodosComponent implements OnInit {
           .subscribe(todos => this.todos = todos);
   }
 
+  deleteTodo(id: number): void {
+      this.todoService.deleteTodo(id).subscribe();
+      var index = this.todos.find(x => x.id == id);
+      var z = this.todos.indexOf(index);
+      if (z > -1) {
+          this.todos.splice(z, 1);
+      }
+    
+  }
+
 }
