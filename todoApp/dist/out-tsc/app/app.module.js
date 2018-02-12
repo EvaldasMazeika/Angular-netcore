@@ -8,19 +8,37 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 var platform_browser_1 = require("@angular/platform-browser");
 var core_1 = require("@angular/core");
+var forms_1 = require("@angular/forms");
+var router_1 = require("@angular/router");
 var app_component_1 = require("./app.component");
+var todos_component_1 = require("./todos/todos.component");
+var todo_service_1 = require("./todo.service");
+var http_1 = require("@angular/common/http");
+var details_component_1 = require("./details/details.component");
+var routes = [
+    { path: '', component: todos_component_1.TodosComponent },
+    { path: 'detail/:id', component: details_component_1.DetailsComponent }
+];
 var AppModule = /** @class */ (function () {
     function AppModule() {
     }
     AppModule = __decorate([
         core_1.NgModule({
             declarations: [
-                app_component_1.AppComponent
+                app_component_1.AppComponent,
+                todos_component_1.TodosComponent,
+                details_component_1.DetailsComponent
             ],
             imports: [
-                platform_browser_1.BrowserModule
+                platform_browser_1.BrowserModule,
+                forms_1.FormsModule,
+                http_1.HttpClientModule,
+                router_1.RouterModule.forRoot(routes, {
+                    useHash: true,
+                    enableTracing: false
+                })
             ],
-            providers: [],
+            providers: [todo_service_1.TodoService],
             bootstrap: [app_component_1.AppComponent]
         })
     ], AppModule);
