@@ -34,6 +34,14 @@ var TodoService = /** @class */ (function () {
         var url = this.todosUrl + "/" + id;
         return this.http.delete(url, httpOptions);
     };
+    TodoService.prototype.updateTodo = function (todo) {
+        var url = this.todosUrl + "/" + todo.id;
+        return this.http.put(url, todo, httpOptions);
+    };
+    TodoService.prototype.CompleteTodo = function (todo) {
+        var url = this.todosUrl + "/" + todo.id;
+        return this.http.put(url, todo, httpOptions);
+    };
     TodoService = __decorate([
         core_1.Injectable(),
         __metadata("design:paramtypes", [http_1.HttpClient])

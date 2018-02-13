@@ -42,5 +42,10 @@ namespace todoApp.Services
         {
             return (_context.SaveChanges() >= 0);
         }
+
+        public void UpdateTodo(Todo todo)
+        {
+            _context.Todos.Update(todo);
+        }
     }
 }

@@ -241,7 +241,7 @@ module.exports = module.exports.toString();
 /***/ "./ClientApp/app/details/details.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-6 offset-md-3\"><h1 class=\"display-3 text-center\">Uzduotis</h1></div>\r\n</div>\r\n<div class=\"container-fluid\">\r\n    <button class=\"btn btn-primary\" (click)=\"goBack()\">Atgal i sarasa</button>\r\n    <div *ngIf=\"todo\">\r\n        <h2>{{ todo.name | uppercase }} Details</h2>\r\n        <div><span>id: </span>{{todo.id}}</div>\r\n        <div>\r\n            <label>\r\n                name:\r\n                <input [(ngModel)]=\"todo.name\" placeholder=\"name\">\r\n            </label>\r\n        </div>\r\n    </div>\r\n\r\n</div>\r\n\r\n"
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-6 offset-md-3\"><h1 class=\"display-3 text-center\">Uzduotis</h1></div>\r\n</div>\r\n<div class=\"container-fluid\">\r\n    <button class=\"btn btn-primary\" (click)=\"goBack()\">Atgal i sarasa</button>\r\n    <div *ngIf=\"todo\">\r\n        <div *ngIf=\"!todo.isCompleted; else elseBlock\">\r\n            <div class=\"row\">\r\n\r\n                <div class=\"col-6\">\r\n                    <form (ngSubmit)=\"onSubmit()\" #Update=\"ngForm\">\r\n                        <div class=\"form-group\">\r\n                            <label for=\"name\">Pavadinimas</label>\r\n                            <input type=\"text\" class=\"form-control\" id=\"name\" aria-describedby=\"name\" placeholder=\"Pavadinimas\" required [(ngModel)]=\"todo.name\" name=\"name\">\r\n                        </div>\r\n                        <div class=\"form-group\">\r\n                            <label for=\"description\">Aprasymas</label>\r\n                            <textarea class=\"form-control\" id=\"description\" rows=\"3\" [(ngModel)]=\"todo.description\" name=\"description\" required></textarea>\r\n                        </div>\r\n                        <button type=\"submit\" class=\"btn btn-info\" [disabled]=\"!Update.form.valid\">Atnaujinti</button>\r\n                    </form>\r\n                </div>\r\n                <div class=\"col-6\">\r\n                    <button class=\"btn btn-success btn-lg btn-block\" (click)=\"completeTodo(todo.id)\">UZBAIGTI DARBA</button>\r\n                </div>\r\n            </div>\r\n\r\n        </div>\r\n        <ng-template #elseBlock>\r\n            <form>\r\n                <div class=\"form-group row\">\r\n                    <label for=\"staticName\" class=\"col-sm-2 col-form-label\">Pavadinimas:</label>\r\n                    <div class=\"col-sm-10\">\r\n                        <input type=\"text\" readonly class=\"form-control-plaintext\" id=\"staticName\" [ngModel]=\"todo.name\" name=\"name\">\r\n                    </div>\r\n                </div>\r\n                <div class=\"form-group row\">\r\n                    <label for=\"staticDesc\" class=\"col-sm-2 col-form-label\">Aprasymas:</label>\r\n                    <div class=\"col-sm-10\">\r\n                        <input type=\"text\" readonly class=\"form-control-plaintext\" id=\"staticDesc\" [ngModel]=\"todo.description\" name=\"description\">\r\n                    </div>\r\n                </div>\r\n            </form>\r\n        </ng-template>\r\n    </div>\r\n\r\n</div>\r\n\r\n"
 
 /***/ }),
 
@@ -286,6 +286,20 @@ var DetailsComponent = /** @class */ (function () {
     };
     DetailsComponent.prototype.goBack = function () {
         this.location.back();
+    };
+    DetailsComponent.prototype.completeTodo = function () {
+        var _this = this;
+        this.todo.isCompleted = true;
+        this.todoService.CompleteTodo(this.todo).subscribe(function (res) {
+            _this.location.back();
+        });
+    };
+    DetailsComponent.prototype.onSubmit = function () {
+        var _this = this;
+        this.todoService.updateTodo(this.todo)
+            .subscribe(function (res) {
+            _this.location.back();
+        });
     };
     __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["D" /* Input */])(),
@@ -349,6 +363,14 @@ var TodoService = /** @class */ (function () {
         var url = this.todosUrl + "/" + id;
         return this.http.delete(url, httpOptions);
     };
+    TodoService.prototype.updateTodo = function (todo) {
+        var url = this.todosUrl + "/" + todo.id;
+        return this.http.put(url, todo, httpOptions);
+    };
+    TodoService.prototype.CompleteTodo = function (todo) {
+        var url = this.todosUrl + "/" + todo.id;
+        return this.http.put(url, todo, httpOptions);
+    };
     TodoService = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
@@ -396,7 +418,7 @@ module.exports = module.exports.toString();
 /***/ "./ClientApp/app/todos/todos.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-6 offset-md-3\"><h1 class=\"display-3 text-center\">Uzduotys</h1></div>\r\n</div>\r\n<div class=\"container-fluid\">\r\n    <a class=\"btn btn-primary\" routerLink=\"/create\" role=\"button\">Prideti uzduoti</a>\r\n    <table class=\"table table-striped table-dark\">\r\n        <thead>\r\n            <tr>\r\n                <th scope=\"col\">Pavadinimas</th>\r\n                <th scope=\"col\">Sukurta</th>\r\n                <th scope=\"col\">Atnaujinta</th>\r\n                <th scope=\"col\">Atlikta</th>\r\n                <th scope=\"col\">Pasirinkimai</th>\r\n            </tr>\r\n        </thead>\r\n        <tbody>\r\n            <tr *ngFor=\"let todo of todos\">\r\n                <td>{{ todo.name }}</td>\r\n                <td>{{ todo.createdDate }}</td>\r\n                <td>{{ todo.modifiedDate }}</td>\r\n                <td>{{ todo.isCompleted }}</td>\r\n                <td><a class=\"btn btn-info\" routerLink=\"/detail/{{todo.id}}\" role=\"button\">Perziureti</a> <button type=\"button\" class=\"btn btn-danger\" (click)=\"deleteTodo(todo.id)\">Istrinti</button></td>\r\n                \r\n            </tr>\r\n        </tbody>\r\n    </table>\r\n</div>\r\n"
+module.exports = "<div class=\"row\">\r\n    <div class=\"col-md-6 offset-md-3\"><h1 class=\"display-3 text-center\">Uzduotys</h1></div>\r\n</div>\r\n<div class=\"container-fluid\">\r\n    <a class=\"btn btn-primary\" routerLink=\"/create\" role=\"button\">Prideti uzduoti</a>\r\n    <table class=\"table table-striped table-dark\">\r\n        <thead>\r\n            <tr>\r\n                <th scope=\"col\">Pavadinimas</th>\r\n                <th scope=\"col\">Sukurta</th>\r\n                <th scope=\"col\">Atnaujinta</th>\r\n                <th scope=\"col\">Atlikta</th>\r\n                <th scope=\"col\">Pasirinkimai</th>\r\n            </tr>\r\n        </thead>\r\n        <tbody>\r\n            <tr *ngFor=\"let todo of todos\">\r\n                <td>{{ todo.name }}</td>\r\n                <td>{{ todo.createdDate }}</td>\r\n                <td>{{ todo.modifiedDate }}</td>  \r\n                <td *ngIf=\"todo.isCompleted; else elseBlock\"><div style=\"color:forestgreen\"><i class=\"fa fa-thumbs-up fa-2x\"></i></div></td>\r\n                <ng-template #elseBlock><td><div style=\"color:Tomato\"><i class=\"fa fa-thumbs-down fa-2x\"></i></div></td></ng-template>\r\n                <td><a class=\"btn btn-info\" routerLink=\"/detail/{{todo.id}}\" role=\"button\">Perziureti</a> <button type=\"button\" class=\"btn btn-danger\" (click)=\"deleteTodo(todo.id)\">Istrinti</button></td>\r\n\r\n            </tr>\r\n        </tbody>\r\n    </table>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -423,9 +445,9 @@ var TodosComponent = /** @class */ (function () {
         this.todoService = todoService;
     }
     TodosComponent.prototype.ngOnInit = function () {
-        this.getHeroes();
+        this.getTodos();
     };
-    TodosComponent.prototype.getHeroes = function () {
+    TodosComponent.prototype.getTodos = function () {
         var _this = this;
         this.todoService.getTodos()
             .subscribe(function (todos) { return _this.todos = todos; });

@@ -4,14 +4,44 @@
 <div class="container-fluid">
     <button class="btn btn-primary" (click)="goBack()">Atgal i sarasa</button>
     <div *ngIf="todo">
-        <h2>{{ todo.name | uppercase }} Details</h2>
-        <div><span>id: </span>{{todo.id}}</div>
-        <div>
-            <label>
-                name:
-                <input [(ngModel)]="todo.name" placeholder="name">
-            </label>
+        <div *ngIf="!todo.isCompleted; else elseBlock">
+            <div class="row">
+
+                <div class="col-6">
+                    <form (ngSubmit)="onSubmit()" #Update="ngForm">
+                        <div class="form-group">
+                            <label for="name">Pavadinimas</label>
+                            <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Pavadinimas" required [(ngModel)]="todo.name" name="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Aprasymas</label>
+                            <textarea class="form-control" id="description" rows="3" [(ngModel)]="todo.description" name="description" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-info" [disabled]="!Update.form.valid">Atnaujinti</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <button class="btn btn-success btn-lg btn-block" (click)="completeTodo(todo.id)">UZBAIGTI DARBA</button>
+                </div>
+            </div>
+
         </div>
+        <ng-template #elseBlock>
+            <form>
+                <div class="form-group row">
+                    <label for="staticName" class="col-sm-2 col-form-label">Pavadinimas:</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="staticName" [ngModel]="todo.name" name="name">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="staticDesc" class="col-sm-2 col-form-label">Aprasymas:</label>
+                    <div class="col-sm-10">
+                        <input type="text" readonly class="form-control-plaintext" id="staticDesc" [ngModel]="todo.description" name="description">
+                    </div>
+                </div>
+            </form>
+        </ng-template>
     </div>
 
 </div>

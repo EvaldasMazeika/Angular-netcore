@@ -30,4 +30,18 @@ export class DetailsComponent implements OnInit {
       this.location.back();
   }
 
+  completeTodo(): void {
+      this.todo.isCompleted = true;
+      this.todoService.CompleteTodo(this.todo).subscribe(res => {
+          this.location.back();
+      });
+  }
+  onSubmit(): void {
+
+      this.todoService.updateTodo(this.todo)
+          .subscribe(res => {
+              this.location.back();
+          });
+  }
+
 }

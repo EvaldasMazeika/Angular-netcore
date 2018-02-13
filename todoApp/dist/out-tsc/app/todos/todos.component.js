@@ -16,9 +16,9 @@ var TodosComponent = /** @class */ (function () {
         this.todoService = todoService;
     }
     TodosComponent.prototype.ngOnInit = function () {
-        this.getHeroes();
+        this.getTodos();
     };
-    TodosComponent.prototype.getHeroes = function () {
+    TodosComponent.prototype.getTodos = function () {
         var _this = this;
         this.todoService.getTodos()
             .subscribe(function (todos) { return _this.todos = todos; });

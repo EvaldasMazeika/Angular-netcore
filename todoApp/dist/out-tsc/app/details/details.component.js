@@ -32,6 +32,20 @@ var DetailsComponent = /** @class */ (function () {
     DetailsComponent.prototype.goBack = function () {
         this.location.back();
     };
+    DetailsComponent.prototype.completeTodo = function () {
+        var _this = this;
+        this.todo.isCompleted = true;
+        this.todoService.CompleteTodo(this.todo).subscribe(function (res) {
+            _this.location.back();
+        });
+    };
+    DetailsComponent.prototype.onSubmit = function () {
+        var _this = this;
+        this.todoService.updateTodo(this.todo)
+            .subscribe(function (res) {
+            _this.location.back();
+        });
+    };
     __decorate([
         core_1.Input(),
         __metadata("design:type", todo_1.Todo)

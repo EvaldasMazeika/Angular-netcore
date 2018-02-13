@@ -14,5 +14,6 @@ namespace todoApp.Services
 
         bool Save();
         void DeteleTodo(Todo todo);
+        void UpdateTodo(Todo todo);
     }
 }

@@ -80,6 +80,38 @@ namespace todoApp.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}")]
+        public IActionResult UpdateTodo(int id, [FromBody] Todo todo)
+        {
+            var result = _repo.GetTodoById(id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            //TODO: need to workout this better
+            result.Name = todo.Name;
+            result.Description = todo.Description;
+            result.IsCompleted = todo.IsCompleted;
+            result.ModifiedDate = DateTime.Now;
+
+
+            _repo.UpdateTodo(result);
+
+            if(!_repo.Save())
+            {
+                throw new Exception("cant update");
+            }
+
+            return NoContent();
+
+        }
+
 
     }
 }

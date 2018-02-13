@@ -17,10 +17,11 @@
             <tr *ngFor="let todo of todos">
                 <td>{{ todo.name }}</td>
                 <td>{{ todo.createdDate }}</td>
-                <td>{{ todo.modifiedDate }}</td>
-                <td>{{ todo.isCompleted }}</td>
+                <td>{{ todo.modifiedDate }}</td>  
+                <td *ngIf="todo.isCompleted; else elseBlock"><div style="color:forestgreen"><i class="fa fa-thumbs-up fa-2x"></i></div></td>
+                <ng-template #elseBlock><td><div style="color:Tomato"><i class="fa fa-thumbs-down fa-2x"></i></div></td></ng-template>
                 <td><a class="btn btn-info" routerLink="/detail/{{todo.id}}" role="button">Perziureti</a> <button type="button" class="btn btn-danger" (click)="deleteTodo(todo.id)">Istrinti</button></td>
-                
+
             </tr>
         </tbody>
     </table>
